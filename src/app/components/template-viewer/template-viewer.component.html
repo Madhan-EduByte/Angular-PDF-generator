@@ -1,0 +1,184 @@
+<div class="viewer-container">
+  <div class="viewer-header">
+    <button class="btn-secondary" (click)="goBack()">
+      ← Back to Home
+    </button>
+    <div class="button-group">
+      <button class="btn-success" (click)="generatePDF()" [disabled]="loading">
+        📥 Download as PDF
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <p>Loading template...</p>
+  </div>
+
+  <div *ngIf="!loading && !data" class="loading">
+    <p>No data found.</p>
+  </div>
+
+  <div *ngIf="!loading && data" id="template-content" class="template-preview">
+    
+    <!-- Report Template -->
+    <div *ngIf="isReport(data)" class="report-template">
+      <div class="template-header">
+        <div class="header-content">
+          <div class="header-text">
+            <h1>{{ getReport()?.title }}</h1>
+            <div class="meta-info">
+              <p><strong>Date:</strong> {{ getReport()?.date }}</p>
+              <p><strong>Author:</strong> {{ getReport()?.author }}</p>
+              <p><strong>Department:</strong> {{ getReport()?.department }}</p>
+            </div>
+          </div>
+          <div class="header-logo">
+            <img src="https://cvforum.in/wp-content/uploads/2017/12/WE-Logo_A4_RGB-392x178.png" alt="Company Logo" class="logo-image">
+          </div>
+        </div>
+      </div>
+
+      <div class="template-section">
+        <h2>Executive Summary</h2>
+        <p>{{ getReport()?.summary }}</p>
+      </div>
+
+      <div class="template-section">
+        <h2>Key Metrics</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Value</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of getReport()?.details">
+              <td>{{ detail.category }}</td>
+              <td><strong>{{ detail.value }}</strong></td>
+              <td>{{ detail.description }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="template-section">
+        <h2>Visual Data</h2>
+        <div class="image-section">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUH2m_gVeQg8TaiIDaYEQBCcJy-EFiC8_n-A&s" alt="Report Visual" class="report-image">
+          <p class="image-caption">Sample visualization for {{ getReport()?.title }}</p>
+        </div>
+      </div>
+
+      <div class="template-footer">
+        <p>Generated on {{ getCurrentDate() }}</p>
+      </div>
+    </div>
+
+    <!-- Invoice Template -->
+    <div *ngIf="isInvoice(data)" class="invoice-template">
+      <div class="invoice-header">
+        <h1>INVOICE</h1>
+        <div class="invoice-meta">
+          <p><strong>Invoice #:</strong> {{ getInvoice()?.invoiceNumber }}</p>
+          <p><strong>Date:</strong> {{ getInvoice()?.date }}</p>
+          <p><strong>Due Date:</strong> {{ getInvoice()?.dueDate }}</p>
+        </div>
+      </div>
+
+      <div class="invoice-customer">
+        <h3>Bill To:</h3>
+        <p><strong>{{ getInvoice()?.customerName }}</strong></p>
+        <p>{{ getInvoice()?.customerAddress }}</p>
+      </div>
+
+      <div class="invoice-items">
+        <table>
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Quantity</th>
+              <th>Unit Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of getInvoice()?.items">
+              <td>{{ item.description }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>${{ item.unitPrice.toFixed(2) }}</td>
+              <td>${{ item.total.toFixed(2) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="invoice-totals">
+        <div class="total-row">
+          <span>Subtotal:</span>
+          <span>${{ getInvoice()?.subtotal?.toFixed(2) }}</span>
+        </div>
+        <div class="total-row">
+          <span>Tax (10%):</span>
+          <span>${{ getInvoice()?.tax?.toFixed(2) }}</span>
+        </div>
+        <div class="total-row grand-total">
+          <span><strong>Total:</strong></span>
+          <span><strong>${{ getInvoice()?.total?.toFixed(2) }}</strong></span>
+        </div>
+      </div>
+
+      <div class="template-footer">
+        <p>Thank you for your business!</p>
+      </div>
+    </div>
+
+    <!-- Employee Template -->
+    <div *ngIf="isEmployee(data)" class="employee-template">
+      <div class="employee-header">
+        <h1>Employee Profile</h1>
+      </div>
+
+      <div class="employee-info">
+        <div class="info-row">
+          <span class="label">Name:</span>
+          <span class="value">{{ getEmployee()?.name }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Employee ID:</span>
+          <span class="value">#{{ getEmployee()?.id }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Position:</span>
+          <span class="value">{{ getEmployee()?.position }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Department:</span>
+          <span class="value">{{ getEmployee()?.department }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Email:</span>
+          <span class="value">{{ getEmployee()?.email }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Phone:</span>
+          <span class="value">{{ getEmployee()?.phone }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Join Date:</span>
+          <span class="value">{{ getEmployee()?.joinDate }}</span>
+        </div>
+        <div class="info-row">
+          <span class="label">Salary:</span>
+          <span class="value">${{ getEmployee()?.salary?.toLocaleString() }}</span>
+        </div>
+      </div>
+
+      <div class="template-footer">
+        <p>Confidential Employee Information</p>
+      </div>
+    </div>
+
+  </div>
+</div>

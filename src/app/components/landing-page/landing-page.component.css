@@ -1,0 +1,47 @@
+.landing-page {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.template-selector {
+  margin: 30px 0;
+}
+
+.data-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.data-summary p {
+  background: white;
+  padding: 15px;
+  border-radius: 5px;
+  border-left: 4px solid #667eea;
+}
+
+ol {
+  margin-left: 20px;
+  line-height: 1.8;
+}
+
+ol li {
+  margin: 10px 0;
+  color: #4a5568;
+}
+
+h3 {
+  color: #2d3748;
+  margin-bottom: 15px;
+}

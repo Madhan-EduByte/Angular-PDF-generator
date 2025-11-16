@@ -1,0 +1,48 @@
+<div class="landing-page">
+  <h2>🎯 Select Template to Generate</h2>
+  
+  <div class="template-selector">
+    <div class="card">
+      <h3>Choose Template Type</h3>
+      <select (change)="onTemplateTypeChange($event)" [(ngModel)]="selectedTemplateType">
+        <option value="report">Business Report</option>
+        <option value="invoice">Invoice</option>
+        <option value="employee">Employee Profile</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <h3>Select Data</h3>
+      <select (change)="onItemChange($event)" [(ngModel)]="selectedItemId">
+        <option *ngFor="let item of getItemsForSelectedType()" [value]="item.id">
+          {{ getItemLabel(item) }}
+        </option>
+      </select>
+    </div>
+
+    <div class="button-group">
+      <button class="btn-primary" (click)="viewTemplate()">
+        👁️ View Template
+      </button>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>📋 Available Data</h3>
+    <div class="data-summary">
+      <p><strong>Reports:</strong> {{ reports.length }} business reports available</p>
+      <p><strong>Invoices:</strong> {{ invoices.length }} invoices available</p>
+      <p><strong>Employees:</strong> {{ employees.length }} employee profiles available</p>
+    </div>
+  </div>
+
+  <div class="info-section">
+    <h3>ℹ️ How to Use</h3>
+    <ol>
+      <li>Select a template type from the dropdown</li>
+      <li>Choose specific data to display</li>
+      <li>Click "View Template" to see the generated HTML template</li>
+      <li>In the viewer, you can export the template as PDF</li>
+    </ol>
+  </div>
+</div>
